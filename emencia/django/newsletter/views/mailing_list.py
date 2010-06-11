@@ -4,7 +4,8 @@ from django.shortcuts import get_object_or_404
 from django.shortcuts import render_to_response
 
 from emencia.django.newsletter.utils.tokens import untokenize
-from emencia.django.newsletter.models import Newsletter, Contact
+from emencia.django.newsletter.models import Newsletter
+from emencia.django.newsletter.models import MailingList
 from emencia.django.newsletter.models import ContactMailingStatus
 from emencia.django.newsletter.forms import SubscriptionForm
 
@@ -28,34 +29,27 @@ def view_mailinglist_unsubscribe(request, slug, uidb36, token):
                                'already_unsubscribed': already_unsubscribed},
                               context_instance=RequestContext(request))
 
-def view_mailinglist_subscribe(request, template="newsletter/mailing_list_subscribe.html"):
+
+def view_mailinglist_subscribe(request, form_class, mailing_list_id=None):
     """
     A simple view that shows a form for subscription
-    on one or more mailing-lists at the same time.
+    for a mailing list(s).
     """
-
     subscribed = False
+    mailing_list = None
+    if mailing_list_id:
+        mailing_list = get_object_or_404(MailingList, id=mailing_list_id)
 
-    if request.method == 'POST' and not subscribed:
-        form = SubscriptionForm(request.POST)
+    if request.POST and not subscribed:
+        form = form_class(request.POST)
         if form.is_valid():
-            contact, generated = Contact.objects.get_or_create(
-                first_name=form.cleaned_data['first_name'],
-                last_name=form.cleaned_data['last_name'],
-                email=form.cleaned_data['email'])
-
-            for mailing_list in form.cleaned_data['mailing_lists']:
-                mailing_list.subscribers.add(contact)
-
+            form.save(mailing_list)
             subscribed = True
     else:
-        form = SubscriptionForm()
+        form = form_class()
 
-    return render_to_response(
-        template,
-        {'subscribed': subscribed,
-         'form': form },
-        context_instance=RequestContext(request)
-    )
-
-
+    return render_to_response('newsletter/mailing_list_subscribe.html',
+                              {'subscribed': subscribed,
+                               'mailing_list': mailing_list,
+                               'form': form},
+                              context_instance=RequestContext(request))
