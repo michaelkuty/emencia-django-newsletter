@@ -7,7 +7,6 @@ from emencia.django.newsletter.utils.tokens import untokenize
 from emencia.django.newsletter.models import Newsletter
 from emencia.django.newsletter.models import MailingList
 from emencia.django.newsletter.models import ContactMailingStatus
-from emencia.django.newsletter.forms import SubscriptionForm
 
 
 def view_mailinglist_unsubscribe(request, slug, uidb36, token):

@@ -8,12 +8,6 @@ urlpatterns = patterns('emencia.django.newsletter.views.mailing_list',
                        url(r'^unsubscribe/(?P<slug>[-\w]+)/(?P<uidb36>[0-9A-Za-z]+)-(?P<token>.+)/$',
                            'view_mailinglist_unsubscribe',
                            name='newsletter_mailinglist_unsubscribe'),
-<<<<<<< HEAD
-
-                       url(r'^subscribe/',
-                           'view_mailinglist_subscribe',
-                           name='newsletter_mailinglist_subscribe'),
-=======
                        url(r'^subscribe/(?P<mailing_list_id>\d+)/',
                            'view_mailinglist_subscribe',
                            {'form_class': MailingListSubscriptionForm},
@@ -22,5 +16,4 @@ urlpatterns = patterns('emencia.django.newsletter.views.mailing_list',
                            'view_mailinglist_subscribe',
                            {'form_class': AllMailingListSubscriptionForm},
                            name='newsletter_mailinglist_subscribe_all'),
->>>>>>> upstream/master
                        )
