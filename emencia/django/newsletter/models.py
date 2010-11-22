@@ -32,16 +32,6 @@ except AttributeError:
                     raise SMTPHeloError(code, resp)
     SMTP.ehlo_or_helo_if_needed = ehlo_or_helo_if_needed
 
-# Get the storage path for attachments upload
-def get_newsletter_storage_path(instance, filename):
-    filename = force_unicode(filename)
-    try:
-        newsletter = instance.slug
-    except AttributeError:
-        newsletter = instance.newsletter.slug
-
-    return NEWSLETTER_BASE_PATH + '/' + newsletter + '/' + filename
-
 
 class SMTPServer(models.Model):
     """Configuration of a SMTP server"""
@@ -272,32 +262,26 @@ class Link(models.Model):
 
 
 class Attachment(models.Model):
-    """Model for an attachment file."""
+    """Attachment file in a newsletter"""
 
-    newsletter = models.ForeignKey(Newsletter)
-    summary = models.CharField(
-        _('Summary'),
-        max_length=100,
-        blank=True,
-        null=True)
-    file = models.FileField(
-        upload_to=get_newsletter_storage_path,
-        blank=True,
-        null=True)
+    def get_newsletter_storage_path(self, filename):
+        filename = force_unicode(filename)
+        return '/'.join([NEWSLETTER_BASE_PATH, self.newsletter.slug, filename])
 
+    newsletter = models.ForeignKey(Newsletter, verbose_name=_('newsletter'))
+    title = models.CharField(_('title'), max_length=255)
+    file_attachment = models.FileField(_('file to attach'),
+                                       upload_to=get_newsletter_storage_path)
 
     class Meta:
         verbose_name = _('attachment')
         verbose_name_plural = _('attachments')
 
-
     def __unicode__(self):
-        if self.summary:
-            return self.summary
-        return self.file.name.split("/")[-1]
+        return self.title
 
     def get_absolute_url(self):
-        return self.file.url
+        return self.file_attachment.url
 
 
 class ContactMailingStatus(models.Model):
