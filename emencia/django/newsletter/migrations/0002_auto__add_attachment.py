@@ -7,7 +7,7 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Adding model 'Attachment'
         db.create_table('newsletter_attachment', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
@@ -19,7 +19,7 @@ class Migration(SchemaMigration):
 
 
     def backwards(self, orm):
-        
+
         # Deleting model 'Attachment'
         db.delete_table('newsletter_attachment')
 
@@ -47,17 +47,10 @@ class Migration(SchemaMigration):
         },
         'newsletter.attachment': {
             'Meta': {'object_name': 'Attachment'},
-<<<<<<< HEAD
-            'file': ('django.db.models.fields.files.FileField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'newsletter': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['newsletter.Newsletter']"}),
-            'summary': ('django.db.models.fields.CharField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'})
-=======
             'file_attachment': ('django.db.models.fields.files.FileField', [], {'max_length': '100'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'newsletter': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['newsletter.Newsletter']"}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '255'})
->>>>>>> d3499e87d45b0f51f4d7d21ee2b6bc516edc556b
         },
         'newsletter.contact': {
             'Meta': {'object_name': 'Contact'},
