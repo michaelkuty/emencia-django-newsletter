@@ -136,8 +136,12 @@ class Contact(models.Model):
 
     def __unicode__(self):
         if self.first_name and self.last_name:
-            return '%s %s | %s' % (self.last_name, self.first_name, self.tags)
-        return '%s | %s' % (self.email, self.tags)
+            contact_name = '%s %s' % (self.last_name, self.first_name)
+        else:
+            contact_name = self.email
+        if self.tags:
+            return '%s | %s' % (contact_name, self.tags)
+        return contact_name
 
     class Meta:
         ordering = ('creation_date',)
@@ -213,7 +217,8 @@ class Newsletter(models.Model):
     status = models.IntegerField(_('status'), choices=STATUS_CHOICES, default=DRAFT)
     sending_date = models.DateTimeField(_('sending date'), default=datetime.now)
 
-    slug = models.SlugField(help_text=_('Used for displaying the newsletter on the site.'))
+    slug = models.SlugField(help_text=_('Used for displaying the newsletter on the site.'),
+                            unique=True)
     creation_date = models.DateTimeField(_('creation date'), auto_now_add=True)
     modification_date = models.DateTimeField(_('modification date'), auto_now=True)
 
