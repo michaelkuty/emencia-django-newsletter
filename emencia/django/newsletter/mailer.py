@@ -31,6 +31,7 @@ from django.template import Context, Template
 from django.template.loader import render_to_string
 from django.utils.encoding import smart_str
 from django.utils.encoding import smart_unicode
+from django.conf import settings
 
 from emencia.django.newsletter.models import Newsletter
 from emencia.django.newsletter.models import ContactMailingStatus
@@ -195,7 +196,12 @@ class NewsLetterSender(object):
         if self.test:
             return True
 
-        if self.newsletter.sending_date <= datetime.now() and \
+        if settings.USE_TZ:
+            from django.utils.timezone import utc
+            now = datetime.utcnow().replace(tzinfo=utc)
+        else:
+            now = datetime.now()
+        if self.newsletter.sending_date <= now and \
                (self.newsletter.status == Newsletter.WAITING or \
                 self.newsletter.status == Newsletter.SENDING):
             return True
