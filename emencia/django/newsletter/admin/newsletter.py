@@ -176,6 +176,7 @@ if USE_TINYMCE:
             widget=TinyMCE(attrs={'cols': 150, 'rows': 80}))
 
         class Meta:
+            fields = '__all__'
             model = Newsletter
 
     class NewsletterAdmin(BaseNewsletterAdmin):
