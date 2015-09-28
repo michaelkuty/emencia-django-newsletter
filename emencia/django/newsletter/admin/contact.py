@@ -5,8 +5,8 @@ from datetime import datetime
 
 from django.contrib import admin
 from django.dispatch import Signal
-from django.conf.urls.defaults import url
-from django.conf.urls.defaults import patterns
+from django.conf.urls import url
+from django.conf.urls import patterns
 from django.core.urlresolvers import reverse
 from django.shortcuts import render_to_response
 from django.template import RequestContext
@@ -137,7 +137,7 @@ class ContactAdmin(admin.ModelAdmin):
 
         context = {'title': _('Contact importation'),
                    'opts': opts,
-                   'root_path': self.admin_site.root_path,
+                   #'root_path': self.admin_site.root_path,
                    'app_label': opts.app_label}
 
         return render_to_response('newsletter/contact_import.html',

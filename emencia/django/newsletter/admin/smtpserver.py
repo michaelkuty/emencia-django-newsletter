@@ -23,16 +23,17 @@ class SMTPServerAdminForm(forms.ModelForm):
 
     class Meta:
         model = SMTPServer
+        fields = '__all__'
 
 
 class SMTPServerAdmin(admin.ModelAdmin):
     form = SMTPServerAdminForm
-    list_display = ('name', 'host', 'port', 'user', 'tls', 'mails_hour',)
+    list_display = ('name', 'host', 'port', 'user', 'tls', 'ssl', 'mails_hour',)
     list_filter = ('tls',)
     search_fields = ('name', 'host', 'user')
     fieldsets = ((None, {'fields': ('name', )}),
                  (_('Configuration'), {'fields': ('host', 'port',
-                                                  'user', 'password', 'tls')}),
+                                                  'user', 'password', 'tls', 'ssl')}),
                  (_('Miscellaneous'), {'fields': ('mails_hour', 'headers'),
                                        'classes': ('collapse', )}),
                  )
