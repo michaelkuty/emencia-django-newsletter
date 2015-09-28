@@ -9,16 +9,17 @@ from emencia.django.newsletter.models import Newsletter
 
 
 class Command(NoArgsCommand):
+
     """Send the newsletter in queue"""
     help = 'Send the newsletter in queue'
 
     option_list = BaseCommand.option_list + (
         make_option('--test',
-            action='store_true',
-            dest='test',
-            default=False,
-            help='test only',
-        ),
+                    action='store_true',
+                    dest='test',
+                    default=False,
+                    help='test only',
+                    ),
     )
 
     def handle_noargs(self, **options):
@@ -32,7 +33,7 @@ class Command(NoArgsCommand):
         is_test = options.get('test', False)
 
         for newsletter in Newsletter.objects.exclude(
-            status=Newsletter.DRAFT).exclude(status=Newsletter.SENT):
+                status=Newsletter.DRAFT).exclude(status=Newsletter.SENT):
             mailer = Mailer(newsletter, test=is_test, verbose=verbose)
             if mailer.can_send:
                 if verbose:
