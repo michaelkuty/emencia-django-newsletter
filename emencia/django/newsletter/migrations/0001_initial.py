@@ -174,4 +174,9 @@ class Migration(migrations.Migration):
             name='newsletter',
             field=models.ForeignKey(verbose_name='newsletter', to='newsletter.Newsletter'),
         ),
+        migrations.AddField(
+            model_name='smtpserver',
+            name='ssl',
+            field=models.BooleanField(default=True, verbose_name='server use SSL'),
+        ),
     ]
