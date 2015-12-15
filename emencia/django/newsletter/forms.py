@@ -42,7 +42,7 @@ class AllMailingListSubscriptionForm(MailingListSubscriptionForm):
         queryset=MailingList.objects.all(),
         initial=[],
         label=_('Mailing lists'),
-        widget=forms.CheckboxSelectMultiple())
+        widget=forms.MultipleHiddenInput(attrs={"checked": ""}))
 
     def __init__(self, *args, **kwargs):
         super(AllMailingListSubscriptionForm, self).__init__(*args, **kwargs)
@@ -53,7 +53,7 @@ class AllMailingListSubscriptionForm(MailingListSubscriptionForm):
         data = self.cleaned_data
         contact, created = Contact.objects.get_or_create(
             email=data['email'],
-            defaults={'first_name': data('first_name', None),
+            defaults={'first_name': data.get('first_name', None),
                       'last_name': data.get('last_name', None)})
 
         for mailing_list in data['mailing_lists']:
