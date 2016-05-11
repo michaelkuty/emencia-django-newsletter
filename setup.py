@@ -34,7 +34,8 @@ setup(name='emencia.django.newsletter',
           'vobject',
           'xlwt',
           'xlrd',
-          'tagging',
+          'django-tagging',
+          'django-compat',
       ],
       entry_points="""
       # -*- Entry points: -*-

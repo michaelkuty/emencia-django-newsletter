@@ -2,7 +2,7 @@
 from datetime import datetime
 
 from django.contrib import admin
-from django.conf.urls.defaults import *
+from compat import patterns, url
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _

@@ -1,5 +1,5 @@
 """Urls for the emencia.django.newsletter statistics"""
-from django.conf.urls.defaults import *
+from compat import patterns, url
 
 urlpatterns = patterns('emencia.django.newsletter.views.statistics',
                        url(r'^(?P<slug>[-\w]+)/$',
