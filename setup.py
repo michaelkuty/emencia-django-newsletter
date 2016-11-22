@@ -34,8 +34,7 @@ setup(name='emencia.django.newsletter',
                         'html2text',
                         'python-dateutil',
                         'BeautifulSoup',
-                        'django-tagging==0.4.1.dev0',
+                        'django-tagging>=0.4.1',
                         'vobject',
                         'xlwt',
-                        'xlrd'],
-      dependency_links=['http://github.com/Fantomas42/django-tagging/tarball/master#egg=django_tagging-0.4.1.dev0'])
+                        'xlrd'])
